@@ -7,6 +7,7 @@ Lo primero que hay que tener descargardo para la ejecucción de la aplicacion, e
 
 * **Android Studio (para el emulador de movil)**
 
+* **Chocolatey**
 
 
 
