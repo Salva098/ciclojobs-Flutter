@@ -122,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
   _submitButton() {
     return InkWell(
       onTap: (){
-
+        Navigator.pushNamed(context, "home");
       },
       child: Container(
         width:MediaQuery.of(context).size.width,

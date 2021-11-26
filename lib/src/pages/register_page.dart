@@ -89,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
         _entryField('Localidad'),
         _dropDown('Tipo de grado'),
         _dropDown('Ciclo Cursado'),
-        _entryField('Calificaacion media del ciclo')
+        _entryField('Calificaacion media del ciclo',decial: true)
       ],
     );
   }
@@ -204,7 +204,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget _entryField(String titulo,
-      {bool contrasena = false, bool decial = true}) {
+      {bool contrasena = false, bool decial = false}) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
@@ -220,7 +220,7 @@ class _RegisterPageState extends State<RegisterPage> {
           const SizedBox(
             height: 10,
           ),
-          _textField(contrasena, decial)
+          _textField(contrasena, decial)  
         ],
       ),
     );
@@ -229,6 +229,7 @@ class _RegisterPageState extends State<RegisterPage> {
   TextField _textField(bool contrasena, bool decimal) {
     if (decimal) {
       return TextField(
+        style: const TextStyle(color: Colors.white),
         obscureText: contrasena,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -249,6 +250,7 @@ class _RegisterPageState extends State<RegisterPage> {
       );
     } else {
       return TextField(
+        style: const TextStyle(color: Colors.white),
         obscureText: contrasena,
         decoration: InputDecoration(
           border: OutlineInputBorder(
@@ -270,7 +272,9 @@ class _RegisterPageState extends State<RegisterPage> {
 
   Widget _submitButton() {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, "login");
+      },
       child: Container(
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(vertical: 15),
