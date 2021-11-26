@@ -1,16 +1,30 @@
-# ciclojobs
+# Ciclojobs-Flutter
+Aplicacion de Ciclojobs 
+## Instalación
+Lo primero que hay que tener descargardo para la ejecucción de la aplicacion, es tener los siguientes programas:
 
-A new Flutter project.
+* **Visual Studio Code**
 
-## Getting Started
+* **Android Studio (para el emulador de movil)**
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Para la instalacion del proyecto tendremos que 
+```
+git clone https://github.com/Salva098/ciclosjobs
+```
+
+Cuando tengamos el proyecto hay que ir al archivo `main.dart` que esta en la carpeta de `lib` y Ejecutamos el main en el visual studio code o en la terminal pondremos el siguiente comando
+
+```
+Dart main.dart
+```
+## Dependencias
+* **cupertino_icons: ^1.0.2**
+
+*  **google_fonts: ^2.1.0**
+
+*  **local_auth: ^1.1.8**
+
+*  **intl: ^0.17.0**
