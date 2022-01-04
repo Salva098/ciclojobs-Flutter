@@ -15,7 +15,7 @@ class WellcomePage extends StatefulWidget {
 class _WellcomePageState extends State<WellcomePage> {
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext   context) {
     return Scaffold(
       body: SingleChildScrollView(
           child: Container(

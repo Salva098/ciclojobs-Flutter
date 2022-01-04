@@ -1,5 +1,9 @@
+import 'package:ciclojobs/src/models/alumnos.dart';
+import 'package:ciclojobs/src/services/alumno_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -9,6 +13,9 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final TextEditingController _userController= TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -20,8 +27,8 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
           decoration: const BoxDecoration(
               gradient: LinearGradient(
-                   begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
                   colors: [Color(0xFF035860), Color(0xFF24476F)])),
           height: height,
           child: Stack(
@@ -75,11 +82,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _emailPasswordWidget() {
-    return Column(
-      children: [
-        _entryField("Email"),
-        _entryField("Password", contrasena: true)
-      ],
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _entryField("Email"),
+          _entryField("Password", contrasena: true)
+        ],
+      ),
     );
   }
 
@@ -96,9 +106,28 @@ class _LoginPageState extends State<LoginPage> {
           const SizedBox(
             height: 10,
           ),
-          TextField(
+          TextFormField(
+
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Este campo es obligatorio';
+              }
+              if(titulo=="Email"){
+
+              if (!EmailValidator.validate(value)) {
+                return 'Email no valido';
+              }
+              }
+              return null;
+            },
+            controller: getController(titulo),
             obscureText: contrasena,
+            style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
+              errorStyle: const TextStyle(
+               fontSize: 20,
+               color: Colors.redAccent
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(color: Colors.red),
@@ -118,11 +147,29 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  _login(){
+    if (_formKey.currentState!.validate()) {
+      AlumnoService().login(_userController.value.text,_passwordController.value.text).then((value) => {
+        if (value==-1) {
+          ScaffoldMessenger.of (context)
+          .showSnackBar(const SnackBar(content: Text("Login Invalido")))
+        }else{
+              dotenv.env['ID_ALUMNO'] = value.toString(),
+              Navigator.pushNamedAndRemoveUntil(context,"home",(Route<dynamic> route)=> false)
+        }
+      });
+    }else{
+      ScaffoldMessenger.of (context)
+          .showSnackBar(const SnackBar(content: Text("Login Invalido")));
+    }
+
+
+  }
 
   _submitButton() {
     return InkWell(
       onTap: (){
-        Navigator.pushNamed(context, "home");
+        _login();
       },
       child: Container(
         width:MediaQuery.of(context).size.width,
@@ -144,4 +191,18 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+TextEditingController? getController(String titulo){
+  switch (titulo) {
+    case "Email":
+      
+      return _userController;
+    case "Password":
+      return _passwordController;
+  }
+
+}
+
+
+
 }

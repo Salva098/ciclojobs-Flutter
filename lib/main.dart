@@ -1,9 +1,15 @@
 import 'package:ciclojobs/src/pages/login_page.dart';
 import 'package:ciclojobs/src/routes/routes.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
+Future<void> main() async{
+  final envVariable=['ID_ALUMNO','asd'];
+  await dotenv.load(
+    fileName: '.env',
+  );
+  dotenv.isEveryDefined(envVariable);
   runApp(const CicloJobsApp());
 }
 
@@ -16,7 +22,9 @@ class CicloJobsApp extends StatelessWidget {
     return MaterialApp(
       title: 'CicloJobs App',
       theme: ThemeData(
+
         primarySwatch: Colors.blue,
+        
         textTheme: GoogleFonts.dosisTextTheme(textTheme).copyWith(
           bodyText1: GoogleFonts.dosis(textStyle: textTheme.bodyText1),
         ),
