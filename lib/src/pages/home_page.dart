@@ -1,7 +1,7 @@
+import 'package:ciclojobs/src/pages/inscripcion_page.dart';
+import 'package:ciclojobs/src/pages/ofertas_page.dart';
 import 'package:ciclojobs/src/pages/profile_page.dart';
 import 'package:flutter/material.dart';
-
-
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,46 +11,49 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-    int _currentIndex =0 ;
-    final screens=[
-      ProfilePage(),
-    ];
+  int _currentIndex = 0;
+  final screens = [
+    OfertasPage(),
+    InscripcionPage(),
+    ProfilePage(),
+  ];
   @override
   Widget build(BuildContext context) {
-    return  GestureDetector(
+    return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        body: screens[0],
-        
+        body: screens[_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
           iconSize: 30,
-        type: BottomNavigationBarType.shifting,
+          type: BottomNavigationBarType.shifting,
           currentIndex: _currentIndex,
-          onTap:(index){
+          onTap: (index) {
             setState(() {
-              _currentIndex=index;
+              _currentIndex = index;
             });
           },
           items: const [
+            // BottomNavigationBarItem(
+            //     icon: Icon(Icons.home),
+            //     label: "Home",
+            //     backgroundColor: Colors.blueAccent),
             BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "",
-            backgroundColor: Colors.blueAccent),
-             BottomNavigationBarItem(
-            icon: Icon(Icons.work),
-            label: "hola",
-            backgroundColor: Colors.red),
-             BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Perfil",
-            backgroundColor: Colors.green)
+                icon: Icon(Icons.work),
+                label: "Ofertas",
+                backgroundColor: Colors.red),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.all_inbox),
+                label: "Mis inscripciones",
+                backgroundColor: Colors.brown),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: "Perfil",
+                backgroundColor: Colors.green)
           ],
         ),
-        
-        
-        ),
-      );
+      ),
+    );
   }
 }

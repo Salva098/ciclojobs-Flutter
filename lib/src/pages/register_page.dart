@@ -178,6 +178,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         fillColor: const Color(0xfff3f3f4),
                       ),
                       child: DropdownButton<Familia>(
+                        isExpanded: true,
                         style: const TextStyle(color: Colors.white),
                         hint: Text(
                           _dropDownFamiliaProfeMap.values.elementAt(

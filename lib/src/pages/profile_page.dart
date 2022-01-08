@@ -17,6 +17,10 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: const Text("Perfil"),
+      ),
       body: FutureBuilder(
         future:AlumnoService().getAlumno(dotenv.env['ID_ALUMNO']??"aaaaaaa") ,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -87,79 +91,137 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
               ),
-               ListTile(
+                ListTile(
                 title: const Text(
                   "Nombre",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 subtitle: Text(
-                  _alumno.nombre ?? " No existe",
+                  
+                   _alumno.nombre ?? "no existe",
+                   style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                   
                 ),
               ),
               ListTile(
                 title: const Text(
                   "Apellidos",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 subtitle: Text(
-                  _alumno.apellidos ?? " No existe",
+                   _alumno.apellidos ?? " No existe",
+                   style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
               ListTile(
                 title: const Text(
                   "Email",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 subtitle: Text(
                   _alumno.email,
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                  "Email",
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                subtitle: Text(
-                  "jane@doefamily.com",
-                ),
               ),
-              const ListTile(
-                title: Text(
-                  "Phone",
+               ListTile(
+                title: const Text(
+                  "Ciclo Cursado",
                   style: TextStyle(
-                    fontSize: 17,
+                    fontSize: 20,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
                 subtitle: Text(
-                  "+1 816-926-6241",
-                ),
-              ),
-              const ListTile(
-                title: Text(
-                  "Address",
-                  style: TextStyle(
+                  _alumno.ciclo!.nombre,
+                  style: const TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+              ),
+              ListTile(
+                title: const Text(
+                  "Fecha nacimiento",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
                 subtitle: Text(
-                  "1278 Loving Acres RoadKansas City, MO 64110",
+                  _alumno.fechanacimiento.toString().split(" ")[0],
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            
+              ListTile(
+                title: const Text(
+                  "Provincia",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                subtitle: Text(
+                  _alumno.provincias!.provincias,
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+              ListTile(
+                title: const Text(
+                  "Localidad",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                subtitle: Text(
+                  _alumno.localidad??"No existe",
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+             
+             ListTile(
+                title: const Text(
+                  "Calificacion",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                subtitle: Text(
+                  _alumno.calificacionMedia.toString(),
+                  style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
             ],
           ),
         );

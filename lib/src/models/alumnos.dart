@@ -1,6 +1,10 @@
 
 import 'dart:convert';
 
+import 'package:ciclojobs/src/models/provincias.dart';
+
+import 'ciclos.dart';
+
 Alumno alumnoFromJson(String str) => Alumno.fromJson(json.decode(str));
 
 String alumnoToJson(Alumno data) => json.encode(data.toJson());
@@ -14,6 +18,8 @@ class Alumno {
         this.apellidos,
         this.fechanacimiento,
         this.idprovincias,
+        this.ciclo,
+        this.provincias,
         this.localidad,
         this.idCiclo,
         this.calificacionMedia,
@@ -23,7 +29,9 @@ class Alumno {
 
     String email;
     String? contrasena;
+    Ciclo? ciclo;
     int? id;
+    Provincias? provincias;
     String? nombre;
     String? apellidos;
     DateTime? fechanacimiento;
@@ -38,6 +46,8 @@ class Alumno {
         contrasena: json["contrasena"],
         nombre: json["nombre"],
         apellidos: json["apellidos"],
+        provincias: Provincias.fromJson(json["provincia"]),
+        ciclo: Ciclo.fromJson(json["ciclo"]),
         fechanacimiento : DateTime.parse(json["fechanacimiento"]),
         idprovincias : json["idprovincias"],
         localidad : json["localidad"],

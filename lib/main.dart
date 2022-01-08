@@ -25,10 +25,10 @@ class CicloJobsApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
         
-        textTheme: GoogleFonts.dosisTextTheme(textTheme).copyWith(
+        textTheme: GoogleFonts.yanoneKaffeesatzTextTheme(textTheme).copyWith(
           bodyText1: GoogleFonts.dosis(textStyle: textTheme.bodyText1),
         ),
-      ),
+      ), 
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: GetApplicationRoute(),
