@@ -42,6 +42,8 @@ dependencies:
   email_validator: ^2.0.1
   flutter_dotenv: ^5.0.2
   carousel_slider: ^4.0.0
+  material_floating_search_bar: ^0.3.6
+  search_page: ^2.0.0+1
 
 
 

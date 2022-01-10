@@ -20,6 +20,7 @@ class _InscripcionPageState extends State<InscripcionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+            backgroundColor: const Color(0xffdbdbdb),
         appBar: AppBar(
           backgroundColor: Colors.brown,
           title: const Text("Mis inscipciones"),
@@ -29,12 +30,9 @@ class _InscripcionPageState extends State<InscripcionPage> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 List<Widget> items = [const SizedBox(height: 10,)];
-                List<Ofertas> oferta =[];
-                for (Inscripciones item in snapshot.data) {
-                    oferta.add(item.oferta as Ofertas);
 
-                }
-                for (Ofertas ofertas in oferta) {
+
+                for (Inscripciones insc in snapshot.data) {
                   items.add(Card(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -42,19 +40,26 @@ class _InscripcionPageState extends State<InscripcionPage> {
                         ListTile(
                           leading: Image.network(
                               'https://www.taqt.com/build/images/brands/logocompanies/carrefour_logo.7d2f4139.webp'),
-                          title: Text(ofertas.nombre),
-                          subtitle: ListTile(
-                            title: const Text("Descripcion"),
-                            subtitle: Text(ofertas.descripcion),
+                          title: Text(insc.oferta!.nombre),
+                          subtitle: Column(
+                            children: [
+                              ListTile(
+                                title: const Text("Descripcion"),
+                                subtitle: Text(insc.oferta!.descripcion),
+                              ),
+                               
+                              
+                            ],
                           ),
                         ),
+                        Text("Estado Inscripcion: " +insc.estadoInscripcin),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             TextButton(
                                 onPressed: () {
                                   Navigator.pushNamed(context, 'ofertas',
-                                      arguments: ofertas);
+                                      arguments:insc.oferta) .then((_) => setState((){}));
                                 },
                                 child: const Text("Ver detalles"))
                           ],

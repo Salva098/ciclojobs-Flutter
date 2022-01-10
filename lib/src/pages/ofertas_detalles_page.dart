@@ -86,12 +86,15 @@ class _OfertaDetallesPageState extends State<OfertaDetallesPage> {
     }
 
     return Scaffold(
+
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(
             Icons.keyboard_backspace,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () { 
+             Navigator.pop(context);
+             },
         ),
         centerTitle: true,
         title: const Text("Detalles de Oferta"),
@@ -168,7 +171,7 @@ class _OfertaDetallesPageState extends State<OfertaDetallesPage> {
             const SizedBox(height: 10.0),
             Text(
               oferta.fechaInicio.toString().split(" ")[0] +
-                  " - " +
+                  " -> " +
                   oferta.fechaFin.toString().split(" ")[0],
               style: TextStyle(
                 fontSize: 18,
@@ -283,6 +286,7 @@ class _OfertaDetallesPageState extends State<OfertaDetallesPage> {
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data != -1) {
+
                     idinscripcion = snapshot.data;
                     isFav = true;
 
