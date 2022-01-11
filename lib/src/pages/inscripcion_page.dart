@@ -52,7 +52,7 @@ class _InscripcionPageState extends State<InscripcionPage> {
                             ],
                           ),
                         ),
-                        Text("Estado Inscripcion: " +insc.estadoInscripcin),
+                        Text("Estado Inscripcion: " +insc.estadoInscripcion),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [

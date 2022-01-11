@@ -20,6 +20,7 @@ class InscipcioneService{
     }
   } 
   Future<int> crearInscripcion(Inscripciones inscripcion) async{
+
     final resq = await http.post(Uri.parse(urlServer + controller),
         headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.acceptHeader: 'application/json'},
         body: jsonEncode(inscripcion.toJson()));

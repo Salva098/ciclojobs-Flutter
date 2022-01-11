@@ -14,7 +14,7 @@ String inscripcionesToJson(Inscripciones data) => json.encode(data.toJson());
 
 class Inscripciones {
   Inscripciones(this.idAlumno, this.ofertaId, this.fechaInscripcion,
-      this.estadoInscripcin,
+      this.estadoInscripcion,
       {this.id, this.alumno, this.oferta});
   int? id;
   Alumno? alumno;
@@ -22,13 +22,13 @@ class Inscripciones {
   int idAlumno;
   int ofertaId;
   DateTime fechaInscripcion;
-  String estadoInscripcin;
+  String estadoInscripcion;
 
   factory Inscripciones.fromJson(Map<String, dynamic> json) => Inscripciones(
       json["idAlumno"],
       json["ofertaId"],
       DateTime.parse(json["fechaInscripcion"]),
-      json["estadoInscripción"],
+      json["estadoInscripcion"],
       id: json["id"],
       alumno: Alumno.fromJson(json["alumno"]),
       oferta: Ofertas.fromJson(json["oferta"]));
@@ -39,6 +39,6 @@ class Inscripciones {
         "ofertaId": ofertaId,
         "oferta": oferta?.toJson(),
         "fechaInscripcion": fechaInscripcion.toIso8601String(),
-        "estadoInscripción": estadoInscripcin,
+        "EstadoInscripcion": estadoInscripcion,
       };
 }
