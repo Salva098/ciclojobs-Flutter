@@ -13,9 +13,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   final screens = [
-    OfertasPage(),
-    InscripcionPage(),
-    ProfilePage(),
+    const OfertasPage(),
+    const InscripcionPage(),
+    const ProfilePage(),
   ];
   @override
   Widget build(BuildContext context) {

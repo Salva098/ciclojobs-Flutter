@@ -1,4 +1,3 @@
-import 'package:ciclojobs/src/models/alumnos.dart';
 import 'package:ciclojobs/src/services/alumno_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

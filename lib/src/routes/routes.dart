@@ -5,7 +5,7 @@ import 'package:ciclojobs/src/pages/register_page.dart';
 import 'package:ciclojobs/src/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 
-Map<String,WidgetBuilder> GetApplicationRoute(){
+Map<String,WidgetBuilder> getApplicationRoute(){
   return <String,WidgetBuilder>{
     '/':(BuildContext context) =>  const WellcomePage(),
     'login':(BuildContext context) =>  const LoginPage(),

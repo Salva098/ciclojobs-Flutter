@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:ciclojobs/src/models/alumnos.dart';
@@ -32,7 +31,6 @@ class AlumnoService {
   }
 
   Future<dynamic> getAlumno(String id) async {
-    print(urlapi + controller +"/"+ id);
     final resq = await http.get(Uri.parse(urlapi + controller +"/"+ id),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'});
     if (resq.statusCode == 200) {

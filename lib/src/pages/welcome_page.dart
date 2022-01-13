@@ -1,7 +1,5 @@
-import 'package:ciclojobs/src/pages/login_page.dart';
 
 import 'package:flutter/material.dart';
-import 'package:local_auth/local_auth.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 

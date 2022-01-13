@@ -31,7 +31,7 @@ class CicloJobsApp extends StatelessWidget {
       ), 
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
-      routes: GetApplicationRoute(),
+      routes: getApplicationRoute(),
       onGenerateRoute: (settings) {
         return MaterialPageRoute(
             builder: (BuildContext context) => const LoginPage());

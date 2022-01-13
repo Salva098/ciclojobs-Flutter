@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class InscripcionPage extends StatefulWidget {
-  InscripcionPage({Key? key}) : super(key: key);
+  const InscripcionPage({Key? key}) : super(key: key);
 
   @override
   _InscripcionPageState createState() => _InscripcionPageState();

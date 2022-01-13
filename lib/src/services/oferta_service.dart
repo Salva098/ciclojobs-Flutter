@@ -8,8 +8,7 @@ class OfertasService{
   final controller = "/api/Oferta";
  
  Future<List<Ofertas>> getOfertas(String idCiclo) async {
-   print(urlServer + controller+"/Ciclo/"+idCiclo);
-   final resq = await http.get(Uri.parse(urlServer + controller+"/Ciclo/"+idCiclo),
+   final resq = await http.get(Uri.parse(urlServer + controller+"/NoCaducado/"+idCiclo),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'});
     if (resq.statusCode==200) {
     return ofertasFromJson(resq.body);

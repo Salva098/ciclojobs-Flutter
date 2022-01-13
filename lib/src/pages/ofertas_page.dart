@@ -7,7 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class OfertasPage extends StatefulWidget {
-  OfertasPage({Key? key}) : super(key: key);
+  const OfertasPage({Key? key}) : super(key: key);
 
   @override
   _OfertasPageState createState() => _OfertasPageState();
@@ -128,7 +128,7 @@ class _OfertasPageState extends State<OfertasPage> {
         FloatingSearchBarAction(
           showIfOpened: false,
           child: CircularButton(
-            icon: const Icon(Icons.search_off),
+            icon: const Icon(Icons.search),
             onPressed: () {},
           ),
         ),
@@ -138,10 +138,10 @@ class _OfertasPageState extends State<OfertasPage> {
       ],
       builder: (context, transition) {
         List<Widget> lista = [];
-        var hola = ofertasFiltradas
+        var filtro = ofertasFiltradas
             .where((element) => element.nombre.contains(busqueda))
             .toList();
-        for (Ofertas item in hola) {
+        for (Ofertas item in filtro) {
           lista.add(ListTile(
               title: Text(item.nombre),
               subtitle: Text(item.empresas.nombre),

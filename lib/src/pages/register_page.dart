@@ -10,8 +10,8 @@ import 'package:ciclojobs/src/services/provincias_service.dart';
 import 'package:ciclojobs/src/services/tipociclo_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({Key? key}) : super(key: key);
