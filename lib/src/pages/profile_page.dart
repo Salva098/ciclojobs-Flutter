@@ -20,6 +20,16 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         title: const Text("Perfil"),
+        actions: [
+          IconButton(onPressed: (){
+            dotenv.env['ID_ALUMNO']="";
+
+Navigator.pushNamedAndRemoveUntil(context,"/",(Route<dynamic> route)=> false);
+
+
+          }, icon: const Icon(Icons.logout))
+        ],
+        
       ),
       body: FutureBuilder(
         future:AlumnoService().getAlumno(dotenv.env['ID_ALUMNO']??"aaaaaaa") ,
