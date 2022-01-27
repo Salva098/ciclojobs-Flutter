@@ -11,7 +11,8 @@ String alumnoToJson(Alumno data) => json.encode(data.toJson());
 
 class Alumno {
     Alumno(
-        this.email,{
+      this.email,
+      {
         this.contrasena,
         this.id,
         this.nombre,

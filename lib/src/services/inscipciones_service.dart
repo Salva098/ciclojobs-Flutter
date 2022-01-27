@@ -3,15 +3,17 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ciclojobs/src/models/inscipciones.dart';
-import 'package:http/http.dart' as http;
+import 'package:ciclojobs/src/services/AuthHttpClient.dart';
 
 class InscipcioneService{
+  final AuthHttpClient authHttpClient = AuthHttpClient();
+
     final urlServer = "http://10.0.2.2:5000";
   final controller = "/api/Inscripciones";
 
-  Future<int> checkinscipcion(String idAlumno,String idOferta) async {
+  Future<int> checkinscipcion(String idOferta) async {
 
-  final resq = await http.get(Uri.parse(urlServer + controller+"/Alumno/"+idAlumno+"/"+idOferta),
+  final resq = await authHttpClient.get(Uri.parse(urlServer + controller+"/CheckAlumno/"+idOferta),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'});
     if (resq.statusCode==200) {
     return int.parse(resq.body);
@@ -21,7 +23,7 @@ class InscipcioneService{
   } 
   Future<int> crearInscripcion(Inscripciones inscripcion) async{
 
-    final resq = await http.post(Uri.parse(urlServer + controller),
+    final resq = await authHttpClient.post(Uri.parse(urlServer + controller),
         headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.acceptHeader: 'application/json'},
         body: jsonEncode(inscripcion.toJson()));
     if (resq.statusCode==200) {
@@ -31,7 +33,7 @@ class InscipcioneService{
     }
   }
   Future<List<Inscripciones>> getInscripcionesAlumno(String id) async {
-    final resq = await http.get(Uri.parse(urlServer + controller+"/Alumno/"+id),
+    final resq = await authHttpClient.get(Uri.parse(urlServer + controller+"/Alumno"),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'});
     if (resq.statusCode==200) {
     return inscripcionesFromJson(resq.body);
@@ -40,7 +42,7 @@ class InscipcioneService{
     }
   }
   Future<bool> eliminarInscripcion(int inscripcion) async{
-    final resq = await http.delete(Uri.parse(urlServer + controller+"?id="+inscripcion.toString()),
+    final resq = await authHttpClient.delete(Uri.parse(urlServer + controller+"?id="+inscripcion.toString()),
         headers: {HttpHeaders.contentTypeHeader: 'application/json',HttpHeaders.acceptHeader: 'application/json'},);
     if (resq.statusCode==200) {
     return true;

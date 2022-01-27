@@ -12,27 +12,24 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({Key? key}) : super(key: key);
+class EditPage extends StatefulWidget {
+  EditPage({Key? key}) : super(key: key);
 
   @override
-  _RegisterPageState createState() => _RegisterPageState();
+  State<EditPage> createState() => _EditPageState();
 }
 
-class _RegisterPageState extends State<RegisterPage> {
+class _EditPageState extends State<EditPage> {
+  
   final _nombreController = TextEditingController();
   final _apellidosController = TextEditingController();
-  final _emailController = TextEditingController();
   final _contrasenaController = TextEditingController();
   final _repetircontrasenaController = TextEditingController();
   final _localidadController = TextEditingController();
   final _calificacionController = TextEditingController();
-  final TextEditingController _codeController= TextEditingController();
 
 
   final _formKey = GlobalKey<FormState>();
-  final _formKeycode = GlobalKey<FormState>();
 
   DateTime currentDate = DateTime.now();
   int _provinciavalue = 1;
@@ -50,13 +47,17 @@ class _RegisterPageState extends State<RegisterPage> {
   List<DropdownMenuItem<TipoCiclo>> listaTipoCiclo = [];
   List<DropdownMenuItem<Ciclo>> listaCiclos = [];
 
+Alumno alumno=Alumno("");
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
+    alumno= ModalRoute.of(context)!.settings.arguments as Alumno;
+      _nombreController.text==""?_nombreController.text=alumno.nombre!:_nombreController.text;
+_apellidosController.text==""? _apellidosController.text=alumno.apellidos!:_apellidosController.text;
+_localidadController.text==""?_localidadController.text=alumno.localidad!:_localidadController.text;
+_calificacionController.text==""?_calificacionController.text=alumno.calificacionMedia.toString():_calificacionController.text;
 
-
-
-
+   
 
     return GestureDetector(
       onTap: () {
@@ -64,37 +65,40 @@ class _RegisterPageState extends State<RegisterPage> {
       },
       child: Scaffold(
         body: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Color(0xFF035860), Color(0xFF24476F)])),
-          height: height,
-          child: Stack(
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(height: height * .2),
-                      _title(),
-                      const SizedBox(height: 50),
-                      _formregister(),
-                      const SizedBox(height: 20),
-                      _submitButton(),
-                      const SizedBox(height: 20),
-                    ],
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0xFF035860), Color(0xFF24476F)])),
+            height: height,
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(height: height * .2),
+                        _title(),
+                        const SizedBox(height: 50),
+                        _formregister(),
+                        const SizedBox(height: 20),
+                        _submitButton(),
+                        const SizedBox(height: 20),
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
+          
+
         ),
-      ),
-    );
+      );
+    
   }
 
   Widget _title() {
@@ -119,7 +123,6 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           _entryField("Nombre"),
           _entryField("Apellidos"),
-          _entryField("Email"),
           _entryField("Contrasena", contrasena: true),
           _entryField("Repetir Contrasena", contrasena: true),
           _datepikerbutton(),
@@ -528,54 +531,13 @@ class _RegisterPageState extends State<RegisterPage> {
       onTap: () {
     if (_formKey.currentState!.validate()) {
       if(_contrasenaController.value.text==_repetircontrasenaController.value.text){
-         AlumnoService().register(Alumno(_emailController.value.text,contrasena:_contrasenaController.value.text,nombre:_nombreController.value.text,apellidos:_apellidosController.value.text,fechanacimiento: currentDate,idCiclo: _cicloCursadoValue, localidad: _localidadController.value.text,idprovincias: _provinciavalue, calificacionMedia: double.parse( _calificacionController.value.text), foto: "TODO"))
+         AlumnoService().editarPerfil(Alumno(alumno.email,contrasena:_contrasenaController.value.text,nombre:_nombreController.value.text,apellidos:_apellidosController.value.text,fechanacimiento: currentDate,idCiclo: _cicloCursadoValue, localidad: _localidadController.value.text,idprovincias: _provinciavalue, calificacionMedia: double.parse( _calificacionController.value.text), foto: "TODO"))
         .then((value) =>{
-
-          if (value) {
-          AlumnoService().enviarEmail(_emailController.text).then((value) => {
-        showDialog(
-          context: context,
-                  builder: (_) {
-                    return  AlertDialog(
-                        title: const Text('Codigo de verificación'),
-                        content: Form(
-                          key:_formKeycode,
-                          child: TextFormField(
-                            validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Este campo es obligatorio';
-                            }
-                              return null;
-                            },
-                            controller: _codeController,
-                        )),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              if(_formKeycode.currentState!.validate()){
-                                AlumnoService().checkCode(_emailController.text, _codeController.text).then((value) => {
-
-                                if(value){
-          Navigator.pushNamedAndRemoveUntil(context, "/",(Route<dynamic> route)=> false),
-
-                                }else{
-                                  ScaffoldMessenger.of (context)
-          .showSnackBar(const SnackBar(content: Text("Error")))
-                                }
-                                }
-                                );
-                              }
-                            },
-                            child: const Text('ACCEPT'),
-                          ),
-                        ],
-                      );
-                  }),
-            
-          })
-          } else {
+          if(value){
+            Navigator.pop(context)
+          }else{
             ScaffoldMessenger.of (context)
-          .showSnackBar(const SnackBar(content: Text("Ya esta creada esa cuenta")))
+          .showSnackBar(const SnackBar(content: Text("Error al editar el perfil")))
           }
         },
         );
@@ -597,7 +559,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 end: Alignment.centerRight,
                 colors: [Color(0xFF035860), Color(0xFF24476F)])),
         child: const Text(
-          'Register',
+          'Editar Perfil',
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
       ),
@@ -651,8 +613,6 @@ class _RegisterPageState extends State<RegisterPage> {
         return _nombreController;
       case "Apellidos":
         return _apellidosController;
-      case "Email":
-        return _emailController;
       case "Contrasena":
         return _contrasenaController;
       case "Repetir Contrasena":
@@ -663,4 +623,5 @@ class _RegisterPageState extends State<RegisterPage> {
         return _calificacionController;
     }
   }
+  
 }

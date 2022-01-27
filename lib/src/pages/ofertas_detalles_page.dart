@@ -257,7 +257,6 @@ class _OfertaDetallesPageState extends State<OfertaDetallesPage> {
               DateTime now = DateTime.now();
               InscipcioneService()
                   .crearInscripcion(Inscripciones(
-                      int.parse(dotenv.env['ID_ALUMNO'] ?? "0"),
                       oferta.id,
                       now,
                       "pendiente"))
@@ -281,8 +280,7 @@ class _OfertaDetallesPageState extends State<OfertaDetallesPage> {
             }
           },
           child: FutureBuilder(
-              future: InscipcioneService().checkinscipcion(
-                  dotenv.env['ID_ALUMNO'] ?? "a", oferta.id.toString()),
+              future: InscipcioneService().checkinscipcion(oferta.id.toString()),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data != -1) {

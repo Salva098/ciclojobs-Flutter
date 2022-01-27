@@ -3,14 +3,16 @@
 import 'dart:io';
 
 import 'package:ciclojobs/src/models/tipociclo.dart';
-import 'package:http/http.dart' as http;
+import 'package:ciclojobs/src/services/AuthHttpClient.dart';
 
 class TipoCicloService{
+  final AuthHttpClient authHttpClient = AuthHttpClient();
+
   final urlServer = "http://10.0.2.2:5000";
   final controller = "/api/TipoCiclo";
   
 Future<List<TipoCiclo>> getAllTipoCiclos() async {
-    final resq = await http.get(
+    final resq = await authHttpClient.get(
         Uri.parse(urlServer+controller),
         headers: {HttpHeaders.contentTypeHeader: 'application/json'});
 

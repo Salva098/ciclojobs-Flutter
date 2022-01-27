@@ -12,9 +12,12 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _userController= TextEditingController();
+  final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _codeController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  final _formKeycode = GlobalKey<FormState>();
+  String token="";
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -26,8 +29,8 @@ class _LoginPageState extends State<LoginPage> {
         body: Container(
           decoration: const BoxDecoration(
               gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
                   colors: [Color(0xFF035860), Color(0xFF24476F)])),
           height: height,
           child: Stack(
@@ -44,16 +47,21 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(height: 50),
                       _emailPasswordWidget(),
                       Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    alignment: Alignment.centerRight,
-                    child: const Text('Forgot Password ?',
-                        style: TextStyle(
-                          color: Colors.white,
-                            fontSize: 14, fontWeight: FontWeight.w500)),
-                  ),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, 'changepassword');
+                          },
+                          child: const Text('Forgot Password ?',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500)),
+                        ),
+                      ),
                       const SizedBox(height: 20),
                       _submitButton(),
-                      
                     ],
                   ),
                 ),
@@ -100,22 +108,21 @@ class _LoginPageState extends State<LoginPage> {
         children: [
           Text(
             titulo,
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15,color: Colors.white),
+            style: const TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),
           ),
           const SizedBox(
             height: 10,
           ),
           TextFormField(
-
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Este campo es obligatorio';
               }
-              if(titulo=="Email"){
-
-              if (!EmailValidator.validate(value)) {
-                return 'Email no valido';
-              }
+              if (titulo == "Email") {
+                if (!EmailValidator.validate(value)) {
+                  return 'Email no valido';
+                }
               }
               return null;
             },
@@ -123,10 +130,8 @@ class _LoginPageState extends State<LoginPage> {
             obscureText: contrasena,
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
-              errorStyle: const TextStyle(
-               fontSize: 20,
-               color: Colors.redAccent
-              ),
+              errorStyle:
+                  const TextStyle(fontSize: 20, color: Colors.redAccent),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
                 borderSide: const BorderSide(color: Colors.red),
@@ -146,62 +151,133 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  _login(){
+
+  _login() {
     if (_formKey.currentState!.validate()) {
-      AlumnoService().login(_userController.value.text,_passwordController.value.text).then((value) => {
-        if (value==-1) {
-          ScaffoldMessenger.of (context)
-          .showSnackBar(const SnackBar(content: Text("Login Invalido")))
-        }else{
-              dotenv.env['ID_ALUMNO'] = value.toString(),
-              Navigator.pushNamedAndRemoveUntil(context,"home",(Route<dynamic> route)=> false)
-        }
-      });
-    }else{
-      ScaffoldMessenger.of (context)
+      AlumnoService()
+          .login(_userController.value.text, _passwordController.value.text)
+          .then((value) => {
+                if (value == "")
+                  {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Login Invalido")))
+                  }
+                else
+                  {
+                    token=value,
+                    AlumnoService()
+                        .checkAccount(_userController.text)
+                        .then((data) => {
+                              if (data)
+                                {
+                                  dotenv.env['ID_ALUMNO'] = value,
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      "home", (Route<dynamic> route) => false)
+                                }
+                              else
+                                {
+                                  AlumnoService().enviarEmail( _userController.text).then((enviado)=>{
+
+                                  if (enviado) {
+                                     showDialog(
+                                      context: context,
+                                      builder: (_) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              'Codigo de verificación'),
+                                          content: Form(
+                                              key: _formKeycode,
+                                              child: TextFormField(
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Este campo es obligatorio';
+                                                  }
+                                                  return null;
+                                                },
+                                                controller: _codeController,
+                                              )),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                if (_formKeycode.currentState!
+                                                    .validate()) {
+                                                  AlumnoService()
+                                                      .checkCode(
+                                                          _userController.text,
+                                                          _codeController.text)
+                                                      .then((value) => {
+                                                            if (value)
+                                                              {
+                                                                dotenv.env['ID_ALUMNO'] = token,
+                                  Navigator.pushNamedAndRemoveUntil(context,
+                                      "home", (Route<dynamic> route) => false)
+                                                              }
+                                                            else
+                                                              {
+                                                                ScaffoldMessenger.of(
+                                                                        context)
+                                                                    .showSnackBar(const SnackBar(
+                                                                        content:
+                                                                            Text("Error")))
+                                                              }
+                                                          });
+                                                }
+                                              },
+                                              child: const Text('ACCEPT'),
+                                            ),
+                                          ],
+                                        );
+                                      })
+                                  } else {
+                                    ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Error al enviar el codigo")))
+                                  }
+                                 
+                                      }
+
+
+                                  )
+                                }
+                            })
+                  }
+              });
+    } else {
+      ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text("Login Invalido")));
     }
-
-
   }
 
   _submitButton() {
     return InkWell(
-      onTap: (){
+      onTap: () {
         _login();
       },
       child: Container(
-        width:MediaQuery.of(context).size.width,
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(vertical: 15),
         alignment: Alignment.center,
-        decoration:  BoxDecoration(
-          borderRadius: const BorderRadius.all(Radius.circular(5)),
-          border: Border.all(
-            color: Colors.white
-          ),
-          gradient: const LinearGradient(
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-            colors: [ Color(0xFF035860), Color(0xFF24476F)]
-          )
+        decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(5)),
+            border: Border.all(color: Colors.white),
+            gradient: const LinearGradient(
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+                colors: [Color(0xFF035860), Color(0xFF24476F)])),
+        child: const Text(
+          'Login',
+          style: TextStyle(fontSize: 20, color: Colors.white),
         ),
-        child: const Text('Login',
-        style: TextStyle(fontSize: 20, color: Colors.white),),
       ),
     );
   }
 
-TextEditingController? getController(String titulo){
-  switch (titulo) {
-    case "Email":
-      
-      return _userController;
-    case "Password":
-      return _passwordController;
+  TextEditingController? getController(String titulo) {
+    switch (titulo) {
+      case "Email":
+        return _userController;
+      case "Password":
+        return _passwordController;
+    }
   }
-
-}
-
-
-
 }

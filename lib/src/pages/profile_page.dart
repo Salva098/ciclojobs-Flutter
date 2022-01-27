@@ -11,7 +11,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
+  Alumno _alumno = Alumno("");
 
 
   @override
@@ -21,6 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: Colors.green,
         title: const Text("Perfil"),
         actions: [
+           IconButton(onPressed: (){
+Navigator.pushNamed(context,"edit",arguments: _alumno).then((value) => {setState((){})});
+          }, icon: const Icon(Icons.mode_edit)),
           IconButton(onPressed: (){
             dotenv.env['ID_ALUMNO']="";
 
@@ -32,12 +35,11 @@ Navigator.pushNamedAndRemoveUntil(context,"/",(Route<dynamic> route)=> false);
         
       ),
       body: FutureBuilder(
-        future:AlumnoService().getAlumno(dotenv.env['ID_ALUMNO']??"aaaaaaa") ,
+        future:AlumnoService().getAlumno() ,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             
-         
-        Alumno _alumno=snapshot.data;
+        _alumno=snapshot.data;
         return Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
           child: ListView(

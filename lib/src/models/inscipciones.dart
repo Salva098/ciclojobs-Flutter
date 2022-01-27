@@ -13,28 +13,27 @@ Inscripciones inscripcionFromJson(String str) =>
 String inscripcionesToJson(Inscripciones data) => json.encode(data.toJson());
 
 class Inscripciones {
-  Inscripciones(this.idAlumno, this.ofertaId, this.fechaInscripcion,
+  Inscripciones( this.ofertaId, this.fechaInscripcion,
       this.estadoInscripcion,
-      {this.id, this.alumno, this.oferta});
+      {this.id,this.idAlumno, this.alumno, this.oferta});
   int? id;
   Alumno? alumno;
   Ofertas? oferta;
-  int idAlumno;
+  int? idAlumno;
   int ofertaId;
   DateTime fechaInscripcion;
   String estadoInscripcion;
 
   factory Inscripciones.fromJson(Map<String, dynamic> json) => Inscripciones(
-      json["idAlumno"],
       json["ofertaId"],
       DateTime.parse(json["fechaInscripcion"]),
       json["estadoInscripcion"],
       id: json["id"],
+      idAlumno:json["idAlumno"],
       alumno: Alumno.fromJson(json["alumno"]),
       oferta: Ofertas.fromJson(json["oferta"]));
   Map<String, dynamic> toJson() => {
         "id": id,
-        "idAlumno": idAlumno,
         "alumno": alumno?.toJson(),
         "ofertaId": ofertaId,
         "oferta": oferta?.toJson(),

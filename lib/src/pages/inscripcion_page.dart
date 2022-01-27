@@ -81,7 +81,7 @@ class _InscripcionPageState extends State<InscripcionPage> {
 
   Future<List<Ofertas>> getofertas() async {
     return await AlumnoService()
-        .getAlumno(dotenv.env['ID_ALUMNO'] ?? "a")
+        .getAlumno()
         .then((alumno) async {
       if (alumno is Alumno) {
         return await OfertasService()
