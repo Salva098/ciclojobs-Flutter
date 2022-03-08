@@ -69,13 +69,6 @@ Future.delayed(Duration.zero, () => alerts(context));
       recursiveAlerts(value,0,context)
     }
     );
-
-
-    //   showDialog(
-    //       context: context,
-    //       builder: (context) => AlertDialog(
-    //             content: Text("hi"),
-    //           ));
     }
     Future<void> recursiveAlerts(List<Mensajes> mensajes, int index,BuildContext context) async {
     if (index >= mensajes.length) {
