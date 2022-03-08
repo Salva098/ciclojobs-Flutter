@@ -2,9 +2,11 @@
     package="com.example.ciclojobs">
 
 
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="ciclojobs"
         android:icon="@mipmap/ic_launcher">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
