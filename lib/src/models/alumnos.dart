@@ -12,6 +12,7 @@ String alumnoToJson(Alumno data) => json.encode(data.toJson());
 class Alumno {
     Alumno(
       this.email,
+        this.foto,
       {
         this.contrasena,
         this.id,
@@ -24,7 +25,6 @@ class Alumno {
         this.localidad,
         this.idCiclo,
         this.calificacionMedia,
-        this.foto,
         });
     
 
@@ -40,10 +40,11 @@ class Alumno {
     String? localidad;
     int? idCiclo;
     double? calificacionMedia;
-    String? foto;
+    String foto;
 
     factory Alumno.fromJson(Map<String, dynamic> json) => Alumno(
         json["email"],
+        json["foto"],
         contrasena: json["contrasena"],
         nombre: json["nombre"],
         apellidos: json["apellidos"],
@@ -54,7 +55,6 @@ class Alumno {
         localidad : json["localidad"],
         idCiclo : json["id_ciclo"],
         calificacionMedia :  json["calificacion_media"].toDouble(),
-        foto : json["foto"],
     );
 
     Map<String, dynamic> toJson() => {

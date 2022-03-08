@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:ciclojobs/src/models/alumnos.dart';
 import 'package:ciclojobs/src/models/ciclos.dart';
 import 'package:ciclojobs/src/models/familia.dart';
@@ -10,11 +12,12 @@ import 'package:ciclojobs/src/services/provincias_service.dart';
 import 'package:ciclojobs/src/services/tipociclo_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 class EditPage extends StatefulWidget {
   EditPage({Key? key}) : super(key: key);
-
   @override
   State<EditPage> createState() => _EditPageState();
 }
@@ -46,12 +49,14 @@ class _EditPageState extends State<EditPage> {
   List<DropdownMenuItem<Familia>> listaFamiliaProfe = [];
   List<DropdownMenuItem<TipoCiclo>> listaTipoCiclo = [];
   List<DropdownMenuItem<Ciclo>> listaCiclos = [];
-
-Alumno alumno=Alumno("");
+Alumno alumno=Alumno("","");
+String imagen="";
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     alumno= ModalRoute.of(context)!.settings.arguments as Alumno;
+    imagen==""?imagen=alumno.foto:imagen;
+
       _nombreController.text==""?_nombreController.text=alumno.nombre!:_nombreController.text;
 _apellidosController.text==""? _apellidosController.text=alumno.apellidos!:_apellidosController.text;
 _localidadController.text==""?_localidadController.text=alumno.localidad!:_localidadController.text;
@@ -121,6 +126,7 @@ _calificacionController.text==""?_calificacionController.text=alumno.calificacio
       key: _formKey,
       child: Column(
         children: [
+          _photoPicker(),
           _entryField("Nombre"),
           _entryField("Apellidos"),
           _entryField("Contrasena", contrasena: true),
@@ -531,7 +537,8 @@ _calificacionController.text==""?_calificacionController.text=alumno.calificacio
       onTap: () {
     if (_formKey.currentState!.validate()) {
       if(_contrasenaController.value.text==_repetircontrasenaController.value.text){
-         AlumnoService().editarPerfil(Alumno(alumno.email,contrasena:_contrasenaController.value.text,nombre:_nombreController.value.text,apellidos:_apellidosController.value.text,fechanacimiento: currentDate,idCiclo: _cicloCursadoValue, localidad: _localidadController.value.text,idprovincias: _provinciavalue, calificacionMedia: double.parse( _calificacionController.value.text), foto: "TODO"))
+
+         AlumnoService().editarPerfil(Alumno(alumno.email, imagen,contrasena:_contrasenaController.value.text,nombre:_nombreController.value.text,apellidos:_apellidosController.value.text,fechanacimiento: currentDate,idCiclo: _cicloCursadoValue, localidad: _localidadController.value.text,idprovincias: _provinciavalue, calificacionMedia: double.parse( _calificacionController.value.text),))
         .then((value) =>{
           if(value){
             Navigator.pop(context)
@@ -622,6 +629,35 @@ _calificacionController.text==""?_calificacionController.text=alumno.calificacio
       case "Calificacion media del ciclo":
         return _calificacionController;
     }
+  }
+
+  _photoPicker() {
+    return InkWell(
+      onTap: () async {
+        try{
+
+
+
+        final file = await ImagePicker().pickImage(source: ImageSource.gallery);
+        if(file!=null){
+           await File(file.path).readAsBytes().then((value) => {
+          setState(() {
+          imagen= base64Encode(value);
+          })
+
+            });
+        }
+        }on PlatformException catch(e){
+          print("error en  => $e" );
+        }
+      },
+      child: Container(
+        child:ClipOval(child:Image.memory(const Base64Decoder().convert(imagen),width: 160,height: 160,),
+        ),
+      ),
+    );
+
+
   }
   
 }

@@ -44,6 +44,7 @@ dependencies:
   carousel_slider: ^4.0.0
   material_floating_search_bar: ^0.3.6
   search_page: ^2.0.0+1
+  image_picker: ^0.8.4+10
 
 
 

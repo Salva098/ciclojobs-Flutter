@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:ciclojobs/src/models/alumnos.dart';
 import 'package:ciclojobs/src/services/alumno_service.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Alumno _alumno = Alumno("");
+  Alumno _alumno = Alumno("","");
 
 
   @override
@@ -40,6 +42,7 @@ Navigator.pushNamedAndRemoveUntil(context,"/",(Route<dynamic> route)=> false);
           if (snapshot.hasData) {
             
         _alumno=snapshot.data;
+        
         return Padding(
           padding: const EdgeInsets.fromLTRB(10.0, 0, 10.0, 0),
           child: ListView(
@@ -50,12 +53,14 @@ Navigator.pushNamedAndRemoveUntil(context,"/",(Route<dynamic> route)=> false);
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0, right: 10.0),
-                    child: Image.network(
-                      "https://cdn.business2community.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640.png",
+                    child:
+                    Image.memory(
+                      const Base64Decoder().convert(_alumno.foto),
                       fit: BoxFit.cover,
                       width: 100.0,
                       height: 100.0,
-                    ),
+                    
+                    ), 
                   ),
                   Expanded(
                     child: Column(
@@ -244,5 +249,6 @@ Navigator.pushNamedAndRemoveUntil(context,"/",(Route<dynamic> route)=> false);
         }
       ),
     );
+   
   }
 }
