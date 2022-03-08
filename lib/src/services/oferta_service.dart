@@ -6,7 +6,7 @@ import 'package:ciclojobs/src/services/AuthHttpClient.dart';
 
 class OfertasService{
 final AuthHttpClient authHttpClient = AuthHttpClient();
-  final urlServer = "http://10.0.2.2:5000";
+  final urlServer = "http://51.254.98.153";
   final controller = "/api/Oferta";
  
  Future<List<Ofertas>> getOfertas(String idCiclo) async {

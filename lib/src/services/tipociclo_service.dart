@@ -8,7 +8,7 @@ import 'package:ciclojobs/src/services/AuthHttpClient.dart';
 class TipoCicloService{
   final AuthHttpClient authHttpClient = AuthHttpClient();
 
-  final urlServer = "http://10.0.2.2:5000";
+  final urlServer = "http://51.254.98.153";
   final controller = "/api/TipoCiclo";
   
 Future<List<TipoCiclo>> getAllTipoCiclos() async {
