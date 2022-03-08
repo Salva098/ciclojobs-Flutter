@@ -4,7 +4,7 @@ import 'package:ciclojobs/src/services/AuthHttpClient.dart';
 class CiclosService{
 final AuthHttpClient authHttpClient = AuthHttpClient();
 
-final urlServer = "http://51.254.98.153";
+final urlServer = "https://www.ciclojobs.ml";
   final controller = "/api/Ciclo";
   Future<List<Ciclo>> getAllCiclos() async {
     final resq = await authHttpClient.get(

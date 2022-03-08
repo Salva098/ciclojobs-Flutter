@@ -6,7 +6,7 @@ import 'package:ciclojobs/src/services/AuthHttpClient.dart';
 
 
 class AlumnoService {
-  final urlapi = "http://51.254.98.153";
+  final urlapi = "https://www.ciclojobs.ml";
   final controller = "/api/Alumno";
   final AuthHttpClient authHttpClient = AuthHttpClient();
 
